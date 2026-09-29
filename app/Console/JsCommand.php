@@ -43,6 +43,7 @@ class JsCommand extends BaseCommand
         'assets/js/src/App.js',
         'assets/js/src/BoardCollapsedMode.js',
         'assets/js/src/BoardColumnView.js',
+        'assets/js/src/BoardColumnNavigation.js',
         'assets/js/src/BoardHorizontalScrolling.js',
         'assets/js/src/BoardPolling.js',
         'assets/js/src/BoardVerticalScrolling.js',

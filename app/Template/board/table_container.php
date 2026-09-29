@@ -4,6 +4,21 @@
         <p class="alert alert-error"><?= t('There is no column or swimlane activated in your project!') ?></p>
     <?php else: ?>
 
+        <?php
+            // Visible task count per column across every swimlane, for the mobile column tabs
+            $columns = array();
+            foreach ($swimlanes as $swimlane) {
+                foreach ($swimlane['columns'] as $column) {
+                    if (! isset($columns[$column['id']])) {
+                        $columns[$column['id']] = array('id' => $column['id'], 'title' => $column['title'], 'nb_visible_tasks' => 0);
+                    }
+                    $columns[$column['id']]['nb_visible_tasks'] += $column['nb_tasks'];
+                }
+            }
+        ?>
+        <?= $this->render('board/column_navigation', array('columns' => $columns)) ?>
+
+        <div class="board-scroll">
         <?php if (isset($not_editable)): ?>
             <table id="board" class="board-project-<?= $project['id'] ?>">
         <?php else: ?>
@@ -62,6 +77,7 @@
         <?php endforeach ?>
 
         </table>
+        </div>
 
     <?php endif ?>
 </div>

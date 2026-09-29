@@ -1,0 +1,96 @@
+.board-column-nav {
+    display: none
+}
+
+@media (max-width: 768px) {
+    .board-column-nav {
+        display: flex;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        overflow-x: auto;
+        scrollbar-width: none;
+        margin-bottom: 5px;
+        background-color: var(--body-background-color);
+        border-bottom: 1px solid var(--table-border-color)
+    }
+
+    .board-column-nav::-webkit-scrollbar {
+        display: none
+    }
+
+    .board-column-nav-item {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: baseline;
+        max-width: 60vw;
+        padding: 8px 10px;
+        color: var(--color-light);
+        text-decoration: none;
+        border-bottom: 3px solid transparent
+    }
+
+    .board-column-nav-item:focus,
+    .board-column-nav-item:hover {
+        text-decoration: none;
+        color: var(--color-primary)
+    }
+
+    .board-column-nav-item-active {
+        color: var(--color-primary);
+        font-weight: bold;
+        border-bottom-color: var(--link-color-primary)
+    }
+
+    .board-column-nav-title {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis
+    }
+
+    .board-column-nav-count {
+        margin-left: 5px;
+        font-size: 0.85em;
+        font-weight: normal;
+        color: var(--color-light)
+    }
+
+    /* The scroll container moves from #board-container to .board-scroll so the tabs can stick to the page */
+    #board-container,
+    #board-container.board-container-compact {
+        overflow-x: visible;
+        container-type: inline-size
+    }
+
+    .board-scroll {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch
+    }
+
+    /* One column per screen, with the next one peeking in at the right edge.
+       The vw values only serve browsers without container query units. */
+    #board th.board-column-header,
+    #board th.board-column-header.board-column-compact {
+        width: calc(100vw - 60px);
+        width: calc(100cqw - 36px);
+        min-width: calc(100vw - 60px);
+        min-width: calc(100cqw - 36px)
+    }
+
+    #board th.board-column-header.board-column-header-collapsed {
+        width: 28px;
+        min-width: 28px
+    }
+
+    #board th.board-column-header,
+    #board td {
+        scroll-snap-align: start
+    }
+
+    .board-swimlane-header-content {
+        display: inline-block;
+        position: sticky;
+        left: 5px
+    }
+}

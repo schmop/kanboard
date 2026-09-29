@@ -1,6 +1,7 @@
 <!-- swimlane -->
 <tr id="swimlane-<?= $swimlane['id'] ?>">
    <th class="board-swimlane-header" colspan="<?= $swimlane['nb_columns'] ?>">
+      <span class="board-swimlane-header-content">
         <?php if (! $not_editable): ?>
             <a href="#" class="board-swimlane-toggle" data-swimlane-id="<?= $swimlane['id'] ?>">
                 <i class="fa fa-chevron-circle-up hide-icon-swimlane-<?= $swimlane['id'] ?>" title="<?= t('Collapse swimlane') ?>" role="button" aria-label="<?= t('Collapse swimlane') ?>"></i>
@@ -21,5 +22,6 @@
                 (<span><span class="ui-helper-hidden-accessible"><?= t('Number of tasks in this swimlane') ?> </span><?= $swimlane['nb_tasks'] ?>)
             <?php endif ?>
         </span>
+      </span>
     </th>
 </tr>

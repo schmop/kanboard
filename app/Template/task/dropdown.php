@@ -52,6 +52,11 @@
         </li>
         <?= $this->hook->render('template:task:dropdown:after-duplicate-task', array('task' => $task)) ?>
 
+        <?php if (isset($task['is_active']) && $task['is_active'] == 1 && $this->projectRole->isSortableColumn($task['project_id'], $task['column_id'])): ?>
+            <li>
+                <?= $this->modal->small('arrows', t('Move position'), 'TaskMovePositionController', 'show', array('task_id' => $task['id'])) ?>
+            </li>
+        <?php endif ?>
         <li>
             <?= $this->modal->small('clone', t('Move to project'), 'TaskDuplicationController', 'move', array('task_id' => $task['id'], 'project_id' => $task['project_id'])) ?>
         </li>

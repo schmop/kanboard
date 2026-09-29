@@ -61,6 +61,7 @@ class CssCommand extends BaseCommand
         'views.css',
         'dashboard.css',
         'board.css',
+        'board_mobile.css',
         'task_board.css',
         'task_icons.css',
         'task_category.css',
