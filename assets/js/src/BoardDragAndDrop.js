@@ -1,12 +1,22 @@
 Kanboard.BoardDragAndDrop = function(app) {
     this.app = app;
     this.savingInProgress = false;
+    this.dragCancelled = false;
 };
 
 Kanboard.BoardDragAndDrop.prototype.execute = function() {
+    var self = this;
+
     if (this.app.hasId("board")) {
         this.executeListeners();
         this.dragAndDrop();
+
+        $(window).on("resize", function() {
+            // Rotating a tablet or resizing the window flips the layout without a board refresh
+            if (self.app.canLongPress() !== self.longPress && ! self.isDragging()) {
+                self.dragAndDrop();
+            }
+        });
     }
 };
 
@@ -30,7 +40,12 @@ Kanboard.BoardDragAndDrop.prototype.dragAndDrop = function() {
             var newSwimlaneId = task.parent().attr('data-swimlane-id');
             var newPosition = task.index() + 1;
 
-            task.removeClass("draggable-item-selected");
+            task.removeClass("draggable-item-selected task-board-lifted");
+            $(".board-scroll").removeClass("board-scroll-dragging");
+
+            if (self.dragCancelled) {
+                return;
+            }
 
             if (newColumnId != taskColumnId || newSwimlaneId != taskSwimlaneId || newPosition != taskPosition) {
                 self.changeTaskState(taskId);
@@ -40,12 +55,24 @@ Kanboard.BoardDragAndDrop.prototype.dragAndDrop = function() {
         start: function(event, ui) {
             ui.item.addClass("draggable-item-selected");
             ui.placeholder.height(ui.item.height());
+
+            // Mandatory snapping would fight the auto-scroll near the column edges
+            $(".board-scroll").addClass("board-scroll-dragging");
         }
     };
 
-    if (isMobile.any) {
+    this.longPress = this.app.canLongPress();
+
+    if (this.longPress) {
+        // The cross stays hidden: a long press lifts the card and BoardTaskQuickActions
+        // then aims the synthetic mousedown at it, so plain touches never get captured
+        params.handle = ".task-board-sort-handle";
+    } else if (isMobile.any) {
         $(".task-board-sort-handle").css("display", "inline");
         params.handle = ".task-board-sort-handle";
+    } else {
+        // Explicit false so a re-run after a resize drops the handle set on narrow screens
+        params.handle = false;
     }
 
     // Set dropzone height to the height of the table cell
@@ -54,6 +81,17 @@ Kanboard.BoardDragAndDrop.prototype.dragAndDrop = function() {
     });
 
     dropzone.sortable(params);
+};
+
+Kanboard.BoardDragAndDrop.prototype.isDragging = function() {
+    return $(".ui-sortable-helper").length > 0;
+};
+
+Kanboard.BoardDragAndDrop.prototype.cancelDrag = function(list) {
+    // jQuery UI fires stop before it puts the item back, so the save has to be skipped explicitly
+    this.dragCancelled = true;
+    list.sortable("cancel");
+    this.dragCancelled = false;
 };
 
 Kanboard.BoardDragAndDrop.prototype.changeTaskState = function(taskId) {

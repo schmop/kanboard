@@ -13,7 +13,10 @@ Kanboard.BoardPolling.prototype.execute = function() {
 };
 
 Kanboard.BoardPolling.prototype.check = function() {
-    if (KB.utils.isVisible() && !this.app.get("BoardDragAndDrop").savingInProgress) {
+    var dragAndDrop = this.app.get("BoardDragAndDrop");
+
+    // Replacing the board under a card being dragged would leave sortable waiting for a mouseup that never comes
+    if (KB.utils.isVisible() && !dragAndDrop.savingInProgress && !dragAndDrop.isDragging()) {
         var self = this;
         this.app.showLoadingIcon();
 

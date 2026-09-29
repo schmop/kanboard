@@ -68,6 +68,12 @@
         -webkit-overflow-scrolling: touch
     }
 
+    /* A scrolling list would become jQuery UI's scroll parent and .board-scroll would stop auto-scrolling between columns */
+    .board-task-list-compact {
+        max-height: none;
+        overflow-y: visible
+    }
+
     /* One column per screen, with the next one peeking in at the right edge.
        The vw values only serve browsers without container query units. */
     #board th.board-column-header,
@@ -92,5 +98,134 @@
         display: inline-block;
         position: sticky;
         left: 5px
+    }
+}
+
+/* -- Card actions and quick action sheet -- */
+
+.task-board-mobile-id,
+.task-quick-sheet {
+    display: none
+}
+
+@media (max-width: 768px) {
+    /* The number menu stays in the DOM because the sheet clones its links;
+       the cross gets an inline display from JS on touch devices, hence the important */
+    .task-board-desktop-actions,
+    .task-board-sort-handle {
+        display: none !important
+    }
+
+    .task-board-mobile-id {
+        display: inline
+    }
+
+    /* A long press must not select text or pop the link callout; the public board has no data-project-id */
+    #board[data-project-id] .task-board {
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none
+    }
+
+    .task-board-lifted {
+        z-index: 5;
+        transform: scale(1.03);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        transition: transform 0.15s ease-out, box-shadow 0.15s ease-out
+    }
+
+    /* jQuery UI positions the helper from the scaled bounding box, so keeping the scale would shift the card off the finger */
+    .task-board-lifted.ui-sortable-helper {
+        transform: none
+    }
+
+    .board-scroll-dragging {
+        scroll-snap-type: none
+    }
+
+    .task-quick-sheet-open {
+        display: block;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1100
+    }
+
+    .task-quick-sheet-backdrop {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.4)
+    }
+
+    .task-quick-sheet-panel {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        max-height: 80vh;
+        overflow-y: auto;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        color: var(--color-primary);
+        background-color: var(--dropdown-background-color);
+        border-top: 1px solid var(--dropdown-border-color);
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.25)
+    }
+
+    .task-quick-sheet-header {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--dropdown-li-border-color);
+        word-wrap: break-word
+    }
+
+    .task-quick-sheet-label {
+        padding: 12px 16px 4px;
+        font-size: 0.85em;
+        text-transform: uppercase;
+        color: var(--color-light)
+    }
+
+    .task-quick-sheet ul {
+        list-style: none;
+        margin: 0;
+        padding: 0
+    }
+
+    .task-quick-sheet li a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 16px;
+        color: var(--color-primary);
+        text-decoration: none;
+        border-bottom: 1px solid var(--dropdown-li-border-color)
+    }
+
+    .task-quick-sheet li a:active {
+        background-color: var(--table-header-background-color)
+    }
+
+    .task-quick-sheet li a i {
+        margin-right: 8px
+    }
+
+    .task-quick-sheet-cancel {
+        display: block;
+        width: 100%;
+        min-height: 44px;
+        margin: 0;
+        padding: 0 16px;
+        font: inherit;
+        font-weight: bold;
+        /* the shared 'cancel' key is lowercase in most locales, it was meant for inline "or cancel" links */
+        text-transform: capitalize;
+        color: var(--button-default-color);
+        background-color: var(--button-default-background-color);
+        border: 0
     }
 }

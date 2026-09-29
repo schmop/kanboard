@@ -28,10 +28,6 @@ Kanboard.BoardColumnNavigation.prototype.onBoardRendered = function() {
     this.render();
 };
 
-Kanboard.BoardColumnNavigation.prototype.isEnabled = function() {
-    return $(".board-column-nav").is(":visible");
-};
-
 Kanboard.BoardColumnNavigation.prototype.render = function() {
     var self = this;
 
@@ -98,7 +94,7 @@ Kanboard.BoardColumnNavigation.prototype.getVisibleColumnId = function() {
 };
 
 Kanboard.BoardColumnNavigation.prototype.highlight = function() {
-    if (! this.isEnabled()) {
+    if (! this.app.isMobileLayout()) {
         return;
     }
 

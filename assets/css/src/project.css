@@ -67,22 +67,35 @@
     float: left
 }
 
-@media (max-width: 768px) {
-    .project-header .dropdown-component {
-        float: none
-    }
-}
-
 .project-header .views-switcher-component {
     margin-top: 4px;
     margin-bottom: 10px;
     float: left
 }
 
+/* Gear and view switcher share one row, everything else (filter box, hook content) gets its own */
 @media (max-width: 768px) {
+    .project-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center
+    }
+
+    .project-header > * {
+        flex: 0 0 100%;
+        min-width: 0
+    }
+
+    .project-header .dropdown-component {
+        float: none;
+        flex: 0 0 auto;
+        margin: 0 10px 10px 0
+    }
+
     .project-header .views-switcher-component {
         float: none;
-        margin-bottom: 10px
+        flex: 1 1 0;
+        margin: 0 0 10px 0
     }
 }
 

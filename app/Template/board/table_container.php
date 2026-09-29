@@ -30,6 +30,8 @@
                    data-reload-url="<?= $this->url->href('BoardAjaxController', 'reload', array('project_id' => $project['id'], 'csrf_token' => $this->app->getToken()->getReusableCSRFToken())) ?>"
                    data-check-url="<?= $this->url->href('BoardAjaxController', 'check', array('project_id' => $project['id'], 'timestamp' => time(), 'csrf_token' => $this->app->getToken()->getReusableCSRFToken())) ?>"
                    data-task-creation-url="<?= $this->url->href('TaskCreationController', 'show', array('project_id' => $project['id'])) ?>"
+                   data-quick-actions-move-label="<?= t('Move a task to another column') ?>"
+                   data-quick-actions-cancel-label="<?= t('cancel') ?>"
             >
         <?php endif ?>
 

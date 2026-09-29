@@ -5,7 +5,7 @@
 
         <?php if ($this->projectRole->canUpdateTask($task)): ?>
             <?php if ($this->projectRole->canChangeAssignee($task) && array_key_exists('owner_id', $task) && $task['owner_id'] != $this->user->getId()): ?>
-            <li>
+            <li class="task-quick-action">
                 <?= $this->url->icon('hand-o-right', t('Assign to me'), 'TaskModificationController', 'assignToMe', ['task_id' => $task['id'], 'csrf_token' => $this->app->getToken()->getReusableCSRFToken(), 'redirect' => isset($redirect) ? $redirect : '']) ?>
             </li>
             <?php endif ?>
@@ -14,7 +14,7 @@
                 <?= $this->url->icon('play', t('Set the start date automatically'), 'TaskModificationController', 'start', ['task_id' => $task['id'], 'csrf_token' => $this->app->getToken()->getReusableCSRFToken(), 'redirect' => isset($redirect) ? $redirect : '']) ?>
             </li>
             <?php endif ?>
-            <li>
+            <li class="task-quick-action">
                 <?= $this->modal->large('edit', t('Edit the task'), 'TaskModificationController', 'edit', array('task_id' => $task['id'])) ?>
             </li>
         <?php endif ?>
@@ -31,7 +31,7 @@
         </li>
         <?= $this->hook->render('template:task:dropdown:after-add-links', array('task' => $task)) ?>
 
-        <li>
+        <li class="task-quick-action">
             <?= $this->modal->small('comment-o', t('Add a comment'), 'CommentController', 'create', array('task_id' => $task['id'])) ?>
         </li>
         <?= $this->hook->render('template:task:dropdown:after-add-comment', array('task' => $task)) ?>
@@ -71,7 +71,7 @@
             </li>
         <?php endif ?>
         <?php if (isset($task['is_active']) && $this->projectRole->canChangeTaskStatusInColumn($task['project_id'], $task['column_id'])): ?>
-        <li>
+        <li class="task-quick-action">
             <?php if ($task['is_active'] == 1): ?>
                 <?= $this->modal->confirm('times', t('Close this task'), 'TaskStatusController', 'close', array('task_id' => $task['id'])) ?>
             <?php else: ?>

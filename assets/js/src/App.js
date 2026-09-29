@@ -113,6 +113,16 @@ Kanboard.App.prototype.hasId = function(id) {
     return !!document.getElementById(id);
 };
 
+// The phone layout is whatever makes the column tabs visible, so CSS stays the single source of truth
+Kanboard.App.prototype.isMobileLayout = function() {
+    return $(".board-column-nav").is(":visible");
+};
+
+Kanboard.App.prototype.canLongPress = function() {
+    // Mouse users in a narrow window never long press, so they keep grabbing the whole card
+    return this.isMobileLayout() && (isMobile.any || window.matchMedia("(pointer: coarse)").matches);
+};
+
 Kanboard.App.prototype.showLoadingIcon = function() {
     $("body").append('<span id="app-loading-icon">&nbsp;<i class="fa fa-spinner fa-spin"></i></span>');
 };

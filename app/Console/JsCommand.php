@@ -52,6 +52,7 @@ class JsCommand extends BaseCommand
         'assets/js/src/Search.js',
         'assets/js/src/Swimlane.js',
         'assets/js/src/Task.js',
+        'assets/js/src/BoardTaskQuickActions.js',
         'assets/js/src/BoardDragAndDrop.js',
         'assets/js/src/Bootstrap.js'
     ];
